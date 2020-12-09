@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		body {
+			background-color: grey;
+		}
+		#principal {
+			background-color: violet;
+		}
+	</style>
+</head>
+<body onKeyDown="pegaDirecao(event.keyCode);">
+	<div id=principal></div>
+	<script>
+
+		/* https://www.mundojs.com.br/2018/01/16/como-fazer-um-jogo-em-javascript/ */
+
+		tabuleiro = "";
+
+		for (var x=0;x<10;x++){
+			tabuleiro += "<tr>";
+
+			for (var y=0;y<10;y++){
+				tabuleiro += 
+					"<td id=td" + x + "_" + y + 
+						" style='width:30px; height:30px;'>" +
+					//x + "_" + y + // print nome td
+					"</td>";
+			}
+
+			tabuleiro += "</tr>";
+		}
+
+		tabuleiro = "<table align=center border=1>" +
+			tabuleiro + "</table>";
+
+		document.getElementById('principal').innerHTML = 'Daqui surge o jogo';
+		document.getElementById('principal').innerHTML = tabuleiro;
+
+		document.getElementById('td3_3').style.background="#333333";
+
+		document.getElementById('principal')
+			.innerHTML=tabuleiro+"</table>";
+
+		var cobra=[[5,0]];
+		var direcao=2;
+		var mx=parseInt(Math.random()*10);
+		var my=parseInt(Math.random()*10);
+		var vivo=true;
+
+		function anda(){
+			document.getElementById(
+					'td'+cobra[cobra.length-1][0]+'_'+cobra[cobra.length-1][1]
+				)
+				//.style.background="#ffffff";
+				.style.background="";
+
+			if(mx==cobra[cobra.length-1][0]&&my==cobra[cobra.length-1][1]){
+				mx=parseInt(Math.random()*10);
+				my=parseInt(Math.random()*10);
+				cobra[cobra.length]=[10,10];
+			}
+
+			for(x=cobra.length-1;x>0;x--){
+				cobra[x][0]=cobra[x-1][0];
+				cobra[x][1]=cobra[x-1][1];
+			}
+
+			if(direcao==0)cobra[0][1]--;
+			if(direcao==1)cobra[0][0]--;
+			if(direcao==2)cobra[0][1]++;
+			if(direcao==3)cobra[0][0]++;
+
+			for(x=1;x<cobra.length;x++){
+				if(cobra[0][0]==cobra[x][0]&&cobra[0][1]==cobra[x][1])
+					vivo=false;
+			}
+
+			if(cobra[0][0]<0||cobra[0][1]<0||cobra[0][0]>9||cobra[0][1]>9)
+				vivo=false;
+
+			if(vivo){
+				document.getElementById('td'+cobra[0][0]+'_'+cobra[0][1])
+					.style.background="#333333";
+				document.getElementById('td'+mx+'_'+my)
+					.style.background="#ff3333";
+				setTimeout('anda()',300);
+			}
+			else alert('Fim de jogo');
+		}
+
+		anda();
+
+		function pegaDirecao(tecla){
+			/*alert(tecla);*/
+			if(tecla==37)direcao=0;
+			if(tecla==38)direcao=1;
+			if(tecla==39)direcao=2;
+			if(tecla==40)direcao=3;
+		}
+
+	</script>
+</body>
+</html>
