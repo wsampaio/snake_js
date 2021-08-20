@@ -17,11 +17,13 @@
 		/* https://www.mundojs.com.br/2018/01/16/como-fazer-um-jogo-em-javascript/ */
 
 		tabuleiro = "";
+		tabuleiroHeight=20;
+		tabuleiroWidth=40;
 
-		for (var x=0;x<10;x++){
+		for (var x=0;x<tabuleiroHeight;x++){
 			tabuleiro += "<tr>";
 
-			for (var y=0;y<10;y++){
+			for (var y=0;y<tabuleiroWidth;y++){
 				tabuleiro += 
 					"<td id=td" + x + "_" + y + 
 						" style='width:30px; height:30px;'>" +
@@ -77,7 +79,11 @@
 					vivo=false;
 			}
 
-			if(cobra[0][0]<0||cobra[0][1]<0||cobra[0][0]>9||cobra[0][1]>9)
+			if(
+				cobra[0][0]<0||cobra[0][1]<0||
+				cobra[0][0]>(tabuleiroHeight-1)||
+				cobra[0][1]>(tabuleiroWidth-1)
+			)
 				vivo=false;
 
 			if(vivo){
